@@ -7,6 +7,10 @@ let size = 2; // Default body size of snake is 2
 const grid = 10; // 30 grids per row
 let eatenFood = true;
 let foodX, foodY;
+let moveUp = false;
+let moveDown = false;
+let moveLeft = false;
+let moveRight = true;
 
 // 900 because 30x30 == 900
 const x = new Array(900);
@@ -61,5 +65,30 @@ function display() {
             context.fill();
             context.closePath();
         }
+    }
+}
+
+// Key movement
+onkeydown = function (e) {
+    const key = e.keyCode;
+    if ((key == 37) && (!moveRight)) {
+        moveLeft = true;
+        moveUp = false;
+        moveDown = false;
+    }
+    if ((key == 39) && (!moveLeft)) {
+        moveRight = true;
+        moveUp = false;
+        moveDown = false;
+    }
+    if ((key == 38) && (!moveDown)) {
+        moveLeft = false;
+        moveUp = true;
+        moveRight = false;
+    }
+    if ((key == 40) && (!moveUp)) {
+        moveRight = false;
+        moveLeft = false;
+        moveDown = true;
     }
 }
