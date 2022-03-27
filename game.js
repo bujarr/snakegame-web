@@ -11,6 +11,8 @@ let moveDown = false;
 let moveLeft = false;
 let moveRight = true;
 const grid = 10; // 30 grids per row
+const minimum = 1;
+const maximum = 29;
 
 // 900 because 30x30 == 900
 const x = new Array(900);
@@ -23,6 +25,7 @@ for (let z = 0; z <= size; z++) {
 
 // All functions that will continuously be run with a timeout of 100ms.
 function cyclic() {
+    eatFood();
     validateMovement();
     moveSnake();
     display();
@@ -132,6 +135,21 @@ function moveSnake() {
     }
     if (moveDown) {
         y[0] = y[0] + grid;
+    }
+}
+
+// Place food in a random position using math.random() function
+function putFood() {
+    let r = Math.floor(Math.random() * (maximum - minimum) + minimum);
+    foodX = r * grid;
+    r = Math.floor(Math.random() * (maximum - minimum) + minimum);
+    foodY = r * grid;
+}
+
+function eatFood() {
+    if ((x[0] == foodX) && (y[0] == foodY)) {
+        size++;
+        eatenFood = true;
     }
 }
 
