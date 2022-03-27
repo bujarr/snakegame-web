@@ -4,13 +4,13 @@ const context = canvas.getContext('2d');
 
 let gameIsOver = false;
 let size = 2; // Default body size of snake is 2
-const grid = 10; // 30 grids per row
 let eatenFood = true;
 let foodX, foodY;
 let moveUp = false;
 let moveDown = false;
 let moveLeft = false;
 let moveRight = true;
+const grid = 10; // 30 grids per row
 
 // 900 because 30x30 == 900
 const x = new Array(900);
@@ -23,7 +23,8 @@ for (let z = 0; z <= size; z++) {
 
 // All functions that will continuously be run with a timeout of 100ms.
 function cyclic() {
-    
+    validateMovement();
+    moveSnake();
     display();
     setTimeout("cyclic()", 100);
 }
@@ -92,3 +93,45 @@ onkeydown = function (e) {
         moveDown = true;
     }
 }
+
+function validateMovement() {
+    for (let z = size; z > 0; z--) {
+        if ((z > 2) && (x[0] == x[z]) && (y[0] == y[z])) {
+            gameIsOver = true;
+        }
+    }
+
+    if (y[0] >= canvas.height) {
+        gameIsOver = true;
+    }
+    if (y[0] < 0) {
+        gameIsOver = true;
+    }
+    if (x[0] >= canvas.width) {
+        gameIsOver = true
+    }
+    if (x[0] < 0) {
+        gameIsOver = true;
+    }
+}
+
+function moveSnake() {
+    for (let z = size; z > 0; z--) {
+        x[z] = x[(z - 1)];
+        y[z] = y[(z - 1)];
+    }
+
+    if (moveLeft) {
+        x[0] = x[0] - grid;
+    }
+    if (moveRight) {
+        x[0] = x[0] + grid;
+    }
+    if (moveUp) {
+        y[0] = y[0] - grid;
+    }
+    if (moveDown) {
+        y[0] = y[0] + grid;
+    }
+}
+
